@@ -1,11 +1,18 @@
 import simpleGit, {SimpleGit, SimpleGitOptions} from 'simple-git';
 import * as vscode from 'vscode';
 
-
+/**
+ * Class handling all git activites.
+ */
 export class GitHandler {
 
+    /** git object created using simpleGit package.*/
     private git: SimpleGit;
 
+    /**
+     * 
+     * @param basePath Path relative to which git commands are to be run.
+     */
     constructor(basePath: string){
         let options: Partial<SimpleGitOptions> = {
             baseDir: basePath,
@@ -16,7 +23,17 @@ export class GitHandler {
 
     }
 
+    /**
+     * Pushes the commit to 'origin'
+     */
     async submitProgress(): Promise<any>;
+    /**
+     * Constructs the link using username, token and repository name so as to push without prompting the user.
+     * 
+     * Deprecated after moving to github classroom.
+     * @param username github username
+     * @param token Access Token for pushing to repository
+     */
     async submitProgress(username:string, token: string): Promise<any>;
 
     async submitProgress(username?:string, token?: string){
@@ -40,7 +57,9 @@ export class GitHandler {
         }
     }
 
-
+    /**
+     * Commits everything present in the folder.
+     */
     async saveProgress(){
         try{
             await this.git.add('*').commit('Saving Progress');
@@ -51,6 +70,11 @@ export class GitHandler {
         }
     }
 
+    /**
+     * 
+     * @ignore
+     * Deprecated after moving to github classroom.
+     */
     async getRepoName(){
         try{
             let reponame: string|undefined;

@@ -2,7 +2,10 @@ import * as vscode from 'vscode';
 // import { helloWorld } from './actions';
 import { sidePanelProvider } from './sidePanelProvider';
 
-// this method is called when your extension is activated
+/**
+ * This method is called when the extension is activated. Binds functionalities only if folder is opened and not a singular file using vscode.
+ * @param context 
+ */
 export function activate(context: vscode.ExtensionContext) {
 	console.log('Congratulations, your extension "assignmentfetcher" is now active!');
 	
@@ -27,7 +30,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 
-// this method is called when your extension is deactivated
+/**
+ * This method is called when the extension is deactivated
+ */
 export function deactivate() {
 
         // freeSpace();

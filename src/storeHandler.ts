@@ -1,5 +1,10 @@
 const fs = require("fs");
 
+/**
+ * Helper function for reading and updating json file.
+ * @param filePath path to json file.
+ * @param cb callback function which acts after reading the json.
+ */
 function jsonReader(filePath: string, cb: any) {
   fs.readFile(filePath, (err: any, fileData: string) => {
     if (err) {
@@ -14,6 +19,12 @@ function jsonReader(filePath: string, cb: any) {
   });
 }
 
+/**
+ * Converts active code time increment to minute from milliseconds and updates the active code time present in 'studentData.json'. 
+ * 
+ * @param path Path to 'studentData.json'
+ * @param activeTimeIncrement Amount in milliseconds to be increased.
+ */
 export function storeTime(path: string, activeTimeIncrement: number){
     console.log('storeTime: started');
     activeTimeIncrement /= (1000*60);

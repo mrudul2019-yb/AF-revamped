@@ -4,18 +4,25 @@ const path = require("path");
 
 //  marking stderr to message cause docker compose uses stderr to log the outputs for some reason
 //  https://github.com/docker/compose/issues/7346
+
+/**
+ * Stats available for docker command executed.
+ */
 export type dockerReturn = {
     stdout: string;
     message: string;
     code: number | null;
     signal: string | null;
     time: number;
-    timeOut: boolean;
 };
-
+/**
+ * Class handling all docker activities.
+ */
 export class DockerHandler {
-
+    /** Base directory with respect to which docker commands are to be run. */
     private workDir: string;
+    
+    /**  Name of the container to be built and used.*/
     private containerName: string;
 
     constructor(workDir: string, containerName: string){
@@ -23,6 +30,21 @@ export class DockerHandler {
         this.containerName = containerName;
     }
 
+    /**
+     * 
+     *  Executes docker commands according to input.
+     *  Input to command mapping -
+     * 
+     * `start` ->  `docker-compose -f ymlPath up -d`.
+     * 
+     * `run` -> `docker exec -i containerName make`.
+     * 
+     * `shut down` -> `docker-compose -f ymlPath down`.
+     * 
+     * 
+     * @param command shorthand for which command to be executed (should be one of these - 'start', 'run', 'shut down'). 
+     * @returns promise which gives stats related to the command that ran.
+     */
     exec(command: string): Promise<dockerReturn>{
         let process: ChildProcessWithoutNullStreams|null = null;
         const spawnOpts = {
@@ -34,7 +56,6 @@ export class DockerHandler {
             code: null,
             signal: null,
             time: 0,
-            timeOut: false,
         };
     	let ymlPath = path.join('.', 'Data', 'docker-compose.yml');
         switch(command){
